@@ -4,7 +4,7 @@ VismaPay
 This is a plugin for [Pretix](https://github.com/pretix/pretix)
 
 Visma Pay payment plugin.
-API reference documentation [API]([https://www.vismapay.com/docs/web_payments/?page=full-api-reference)
+API reference documentation [API](https://www.vismapay.com/docs/web_payments/?page=full-api-reference)
 
 Development setup
 -----------------
