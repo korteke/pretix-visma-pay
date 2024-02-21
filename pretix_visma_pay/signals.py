@@ -1,3 +1,4 @@
+import logging
 from collections import OrderedDict
 from django import forms
 from django.dispatch import receiver
@@ -8,6 +9,9 @@ from pretix.base.signals import (
     register_payment_providers,
 )
 
+from .forms import VismaPayValidator
+
+logger = logging.getLogger(__name__)
 
 @receiver(register_payment_providers, dispatch_uid="payment_vismapay")
 def register_payment_provider(sender, **kwargs):
@@ -33,28 +37,32 @@ def register_global_settings(sender, **kwargs):
                 forms.CharField(
                     label=_("Visma Pay: API key"),
                     required=False,
+                    validators=(VismaPayValidator('app_'),
                 ),
-            ),
+            )),
             (
                 "payment_visma_pay_private_key",
                 forms.CharField(
                     label=_("Visma Pay: Private key"),
                     required=False,
+                    validators=(VismaPayValidator('app_'),
                 ),
-            ),
+            )),
             (
                 "payment_visma_pay_test_api_key",
                 forms.CharField(
                     label=_("Visma Pay: Test API key"),
                     required=False,
+                    validators=(VismaPayValidator('app_'),
                 ),
-            ),
+            )),
             (
                 "payment_visma_pay_test_private_key",
                 forms.CharField(
                     label=_("Visma Pay: Test private key"),
                     required=False,
+                    validators=(VismaPayValidator('app_'),
                 ),
-            ),
+            )),
         ]
     )

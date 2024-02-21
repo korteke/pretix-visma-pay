@@ -29,7 +29,7 @@ class VismapaySettingsHolder(BasePaymentProvider):
         self.settings = SettingsSandbox("payment", self.identifier.split("_")[0], event)
 
     @property
-    def settings_form_fields(self):
+    def settings_form_fields(self) -> dict:
         fields = [
             (
                 "privatekey",
@@ -75,7 +75,7 @@ class VismaPayProvider(BasePaymentProvider):
         )
 
     def checkout_confirm_render(self, request):
-        return _("You will be redirected to Visma Pay to complete the payment")
+        return _("After you submitted your order, we will redirect you to Visma Pay to complete your payment. You will then be redirected back here to get your tickets.")
 
     def execute_payment(self, request, payment):
         callback_url = request.build_absolute_uri(
@@ -89,7 +89,7 @@ class VismaPayProvider(BasePaymentProvider):
         )
 
         order_number = "{}_{}".format(payment.order.code, token_urlsafe(16))
-        token = self.client.get_token(
+        token = self.client.get_payment_token(
             order_number=order_number,
             amount=int(payment.amount * 100),
             email=payment.order.email,
@@ -113,13 +113,11 @@ class VismaPayProvider(BasePaymentProvider):
 
     @property
     def public_name(self):
-        return "{} – {}".format(_("Bank and credit card payments"), self.verbose_name)
+        return "{} – {}".format(_("Finnish bank and credit card payments"), self.verbose_name)
 
     @property
-    def test_mode_message(self):
-        return _(
-            "Payment will be simulated while the shop is in test mode. No money will be transferred. Read more at: %(url)s"
-        ) % {"url": "https://payform.bambora.com/docs/web_payments/?page=testing"}
+    def test_mode_message(self) -> str:
+        return _("In test mode, only test cards will work.")
 
     @property
     def verbose_name(self):

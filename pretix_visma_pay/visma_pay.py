@@ -13,7 +13,8 @@ class VismaPayClient:
         self.api_key = api_key
         self.private_key = private_key
 
-    def get_token(self, order_number=None, amount=None, email=None, callback_url=None):
+
+    def get_payment_token(self, order_number=None, amount=None, email=None, callback_url=None):
         authcode_input = "|".join([self.api_key, order_number])
         payload = {
             "version": self.API_VERSION,
@@ -30,17 +31,21 @@ class VismaPayClient:
             "authcode": self.generate_authcode(authcode_input),
         }
 
-        r = requests.post("{}/auth_payment".format(self.BASE_URL), json=payload)
-        data = r.json()
+        r = requests.post(f"{self.BASE_URL}/auth_payment", json=payload)
+        resp = r.json()
+        logger.info("Testing")
+        logger.info(r.json())
+        logger.info(r.text)
+        logger.info(r.content)
+        logger.info("Testing")
 
-        if data.get("result") != 0:
+        if resp.get("result") != 0:
             raise Exception(
-                "Token request failed with code {}: {} - {}".format(
-                    data.get("result"), data.get("errors"), data.get("url")
-                )
+                f"Token request failed with code {resp.get('result')}: {resp.get('errors')} - {resp.get('url')}"
             )
 
-        return data.get("token")
+
+        return resp.get("token")
 
     def get_payment_methods(self):
         payload = {
@@ -53,9 +58,15 @@ class VismaPayClient:
         r = requests.post(
             "{}/merchant_payment_methods".format(self.BASE_URL), json=payload
         )
-        # TODO: Check for errors and throw
+        
+        resp = r.json()
+        
+        if resp.get("result") != 0:
+            raise Exception(
+                f"Payment methods request failed with code {resp.get('result')}: {resp.get('errors')} - {resp.get('url')}"
+            )
 
-        return r.json()
+        return resp
 
     def payment_url(self, token):
         return "{}/token/{}".format(self.BASE_URL, token)

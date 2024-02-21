@@ -5,7 +5,7 @@ from . import __version__
 try:
     from pretix.base.plugins import PluginConfig
 except ImportError:
-    raise RuntimeError("Please use pretix 2.7 or above to run this plugin!")
+    raise RuntimeError("Please use pretix 4.20.0 or above to run this plugin!")
 
 
 class PluginApp(PluginConfig):
@@ -14,14 +14,15 @@ class PluginApp(PluginConfig):
     verbose_name = "VismaPay"
 
     class PretixPluginMeta:
-        name = gettext_lazy("VismaPay")
+        name = gettext_lazy("Visma Pay")
         author = "Keijo Korte"
-        description = gettext_lazy("Visma Pay payment plugin")
+        description = gettext_lazy('Accept payments through Visma Pay, a European payment provider supporting '
+                                'Finnish Banks and Credit Cards as well as many other payment methods.')
         visible = True
         version = __version__
         category = "PAYMENT"
         picture = "pretix_visma_pay/logo.png"
-        compatibility = "pretix>=2.7.0"
+        compatibility = "pretix>=4.20.0"
 
     def ready(self):
         from . import signals  # NOQA
