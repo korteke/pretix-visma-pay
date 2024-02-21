@@ -1,0 +1,5 @@
+recursive-include pretix_visma_pay/static *
+recursive-include pretix_visma_pay/templates *
+recursive-include pretix_visma_pay/locale *
+include LICENSE
+exclude .gitlab-ci.yml

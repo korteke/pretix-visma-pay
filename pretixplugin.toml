@@ -1,0 +1,5 @@
+[plugin]
+package = "pretix-visma-pay"
+modules = [ "pretix_visma_pay" ]
+marketplace_name = "visma-pay"
+

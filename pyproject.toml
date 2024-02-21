@@ -1,0 +1,42 @@
+[project]
+name = "pretix-visma-pay"
+dynamic = ["version"]
+description = "Visma Pay payment plugin"
+readme = "README.rst"
+license = {text = "Apache"}
+keywords = ["pretix"]
+authors = [
+    {name = "Keijo Korte", email = "git@kvak.net"},
+]
+maintainers = [
+    {name = "Keijo Korte", email = "git@kvak.net"},
+]
+
+dependencies = [
+]
+
+[project.entry-points."pretix.plugin"]
+pretix_visma_pay = "pretix_visma_pay:PretixPluginMeta"
+
+[project.entry-points."distutils.commands"]
+build = "pretix_plugin_build.build:CustomBuild"
+
+[build-system]
+requires = [
+    "setuptools",
+    "pretix-plugin-build",
+]
+
+[project.urls]
+homepage = "https://github.com/korteke/pretix-visma-pay"
+repository = "https://github.com/korteke/pretix-visma-pay"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "pretix_visma_pay.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["pretix*"]
+namespaces = false
