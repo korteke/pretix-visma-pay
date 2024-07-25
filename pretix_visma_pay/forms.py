@@ -15,7 +15,7 @@ class VismaPayValidator:
         if not any(value.startswith(p) for p in self._prefixes):
             raise forms.ValidationError(
                 _('The provided key "%(value)s" does not look valid. It should start with "%(prefix)s".'),
-                code='invalid-mollie-key',
+                code='invalid-pretix-key',
                 params={
                     'value': value,
                     'prefix': self._prefixes[0],

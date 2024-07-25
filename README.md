@@ -39,6 +39,27 @@ You can auto-fix some of these issues by running::
 
 To automatically check for these issues before you commit, you can run ``.install-hooks``.
 
+Building for prod
+-----------------
+
+`python3 -m pip install --upgrade build`
+`python3 -m build`
+
+Generated artifact (.whl file) will be in `dist` directory.
+
+Installing
+----------
+Move .whl file to server and run.
+
+`pip install pretix_visma_pay-X.X.X-py3-none-any.whl`
+
+Build docker container with Visma Pay plugin
+--------------------------------------------
+Copy file to the `build` directory and add lines below to he Dockerfile
+
+COPY pretix_visma_pay-X.X.X-py3-none-any.whl /pretix
+RUN pip3 install /pretix/pretix_visma_pay-X.X.X-py3-none-any.whl
+
 
 License
 -------

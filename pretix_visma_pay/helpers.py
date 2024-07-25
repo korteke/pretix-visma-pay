@@ -20,5 +20,6 @@ def get_credentials(event):
             "private_key": gs.settings.get(private_key_setting),
         }
     except Exception as e:
+
         logger.exception('Unable to fetch credentials from settings.')
         return False
