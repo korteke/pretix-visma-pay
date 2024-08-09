@@ -25,7 +25,7 @@ def logentry_display(sender, logentry, **kwargs):
     if logentry.action_type != "pretix_vismapay.event":
         return
 
-    return _("Vismapay reported an event")
+    return _("VismaPay reported an event")
 
 
 @receiver(register_global_settings, dispatch_uid="visma_pay_global_settings")
@@ -37,32 +37,28 @@ def register_global_settings(sender, **kwargs):
                 forms.CharField(
                     label=_("Visma Pay: API key"),
                     required=False,
-                    validators=(VismaPayValidator('app_'),
                 ),
-            )),
+            ),
             (
                 "payment_visma_pay_private_key",
                 forms.CharField(
                     label=_("Visma Pay: Private key"),
                     required=False,
-                    validators=(VismaPayValidator('app_'),
                 ),
-            )),
+            ),
             (
                 "payment_visma_pay_test_api_key",
                 forms.CharField(
-                    label=_("Visma Pay: Test API key"),
+                    label=_("Visma Pay: TEST API key"),
                     required=False,
-                    validators=(VismaPayValidator('app_'),
                 ),
-            )),
+            ),
             (
                 "payment_visma_pay_test_private_key",
                 forms.CharField(
-                    label=_("Visma Pay: Test private key"),
+                    label=_("Visma Pay: TEST private key"),
                     required=False,
-                    validators=(VismaPayValidator('app_'),
                 ),
-            )),
+            ),
         ]
     )
