@@ -13,6 +13,7 @@ from .forms import VismaPayValidator
 
 logger = logging.getLogger(__name__)
 
+
 @receiver(register_payment_providers, dispatch_uid="payment_vismapay")
 def register_payment_provider(sender, **kwargs):
     from .payment import VismaPayProvider
@@ -49,14 +50,14 @@ def register_global_settings(sender, **kwargs):
             (
                 "payment_visma_pay_test_api_key",
                 forms.CharField(
-                    label=_("Visma Pay: TEST API key"),
+                    label=_("Visma Pay: API key (TEST)"),
                     required=False,
                 ),
             ),
             (
                 "payment_visma_pay_test_private_key",
                 forms.CharField(
-                    label=_("Visma Pay: TEST private key"),
+                    label=_("Visma Pay: Private key (TEST)"),
                     required=False,
                 ),
             ),

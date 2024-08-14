@@ -13,8 +13,9 @@ class VismaPayClient:
         self.api_key = api_key
         self.private_key = private_key
 
-
-    def get_payment_token(self, order_number=None, amount=None, email=None, callback_url=None):
+    def get_payment_token(
+        self, order_number=None, amount=None, email=None, callback_url=None
+    ):
         authcode_input = "|".join([self.api_key, order_number])
         payload = {
             "version": self.API_VERSION,
@@ -33,17 +34,11 @@ class VismaPayClient:
 
         r = requests.post(f"{self.BASE_URL}/auth_payment", json=payload)
         resp = r.json()
-        logger.info("Testing")
-        logger.info(r.json())
-        logger.info(r.text)
-        logger.info(r.content)
-        logger.info("Testing")
 
         if resp.get("result") != 0:
             raise Exception(
                 f"Token request failed with code {resp.get('result')}: {resp.get('errors')} - {resp.get('url')}"
             )
-
 
         return resp.get("token")
 
@@ -58,9 +53,9 @@ class VismaPayClient:
         r = requests.post(
             "{}/merchant_payment_methods".format(self.BASE_URL), json=payload
         )
-        
+
         resp = r.json()
-        
+
         if resp.get("result") != 0:
             raise Exception(
                 f"Payment methods request failed with code {resp.get('result')}: {resp.get('errors')} - {resp.get('url')}"
@@ -72,24 +67,28 @@ class VismaPayClient:
         return "{}/token/{}".format(self.BASE_URL, token)
 
     def validate_callback_request(self, r):
-        return_code = r.GET.get("RETURN_CODE")
-        order_number = r.GET.get("ORDER_NUMBER")
-        settled = r.GET.get("SETTLED")
-        incident_id = r.GET.get("INCIDENT_ID")
-        authcode = r.GET.get("AUTHCODE")
+        try:
+            return_code = r.GET.get("RETURN_CODE")
+            order_number = r.GET.get("ORDER_NUMBER")
+            settled = r.GET.get("SETTLED")
+            incident_id = r.GET.get("INCIDENT_ID")
+            authcode = r.GET.get("AUTHCODE")
 
-        authcode_parts = [return_code, order_number]
-        if settled is not None:
-            authcode_parts.append(settled)
+            authcode_parts = [return_code, order_number]
+            if settled is not None:
+                authcode_parts.append(settled)
 
-        if incident_id is not None:
-            authcode_parts.append(incident_id)
+            if incident_id is not None:
+                authcode_parts.append(incident_id)
 
-        authcode_input = "|".join(authcode_parts)
-        if authcode != self.generate_authcode(authcode_input):
+            authcode_input = "|".join(authcode_parts)
+            if authcode != self.generate_authcode(authcode_input):
+                return False
+            
+            return True
+        except Exception as e:
+            logger.exception("Error validating callback request")
             return False
-
-        return True
 
     def generate_authcode(self, input):
         """

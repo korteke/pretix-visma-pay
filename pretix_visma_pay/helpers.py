@@ -3,10 +3,12 @@ from pretix.base.settings import GlobalSettingsObject
 
 logger = logging.getLogger(__name__)
 
+
 def get_credentials(event):
     gs = GlobalSettingsObject()
     try:
-        api_key_setting = ("payment_visma_pay_test_api_key"
+        api_key_setting = (
+            "payment_visma_pay_test_api_key"
             if event.testmode
             else "payment_visma_pay_api_key"
         )
@@ -21,5 +23,5 @@ def get_credentials(event):
         }
     except Exception as e:
 
-        logger.exception('Unable to fetch credentials from settings.')
+        logger.exception("Unable to fetch credentials from settings.")
         return False

@@ -44,4 +44,4 @@ def visma_pay_callback(request, organizer_id=None, payment_id=None):
 
             return redirect(redirect_url)
     except Order.DoesNotExist:
-        raise Exception("asd")
+        raise Exception("Order does not exist!")
