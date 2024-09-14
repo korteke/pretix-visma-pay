@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-21 13:29+0200\n"
+"POT-Creation-Date: 2024-09-10 08:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,72 +17,81 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: pretix_visma_pay/apps.py:17
-msgid "VismaPay"
-msgstr ""
-
-#: pretix_visma_pay/apps.py:19
-msgid "Visma Pay payment plugin"
-msgstr ""
-
-#: pretix_visma_pay/payment.py:22
 msgid "Visma Pay"
 msgstr ""
 
-#: pretix_visma_pay/payment.py:37
-msgid "Private Key"
-msgstr ""
-
-#: pretix_visma_pay/payment.py:39
+#: pretix_visma_pay/apps.py:19
 msgid ""
-"Your merchant account's private key, to be found in your payment provider's "
-"settings: 'Merchant' > scroll down to 'Merchant-Settings' and copy the key."
+"Accept payments through Visma Pay, a European payment provider supporting "
+"Finnish Banks and Credit Cards as well as many other payment methods."
 msgstr ""
 
-#: pretix_visma_pay/payment.py:48
-msgid "API Key"
-msgstr ""
-
-#: pretix_visma_pay/payment.py:50
-msgid ""
-"Your API key for an API user, to be found in your payment provider's "
-"settings: 'User' where you select the 'System user' that is configured to "
-"have rights to access only '/payments' functionality and copy it's key. If "
-"you have no such user, please create one with the above mentioned "
-"permissions first."
-msgstr ""
-
-#: pretix_visma_pay/payment.py:78
-msgid "You will be redirected to Visma Pay to complete the payment"
-msgstr ""
-
-#: pretix_visma_pay/payment.py:116
-msgid "Bank and credit card payments"
-msgstr ""
-
-#: pretix_visma_pay/payment.py:121
+#: pretix_visma_pay/forms.py:17
 #, python-format
 msgid ""
-"Payment will be simulated while the shop is in test mode. No money will be "
-"transferred. Read more at: %(url)s"
+"The provided key \"%(value)s\" does not look valid. It should start with "
+"\"%(prefix)s\"."
 msgstr ""
 
-#: pretix_visma_pay/signals.py:24
-msgid "Vismapay reported an event"
+#: pretix_visma_pay/payment.py:33
+msgid ""
+"After you submitted your order, we will redirect you to Visma Pay to "
+"complete your payment. You will then be redirected back here to get your "
+"tickets."
 msgstr ""
 
-#: pretix_visma_pay/signals.py:34
+#: pretix_visma_pay/payment.py:59 pretix_visma_pay/visma_pay.py:54
+msgid "We had trouble communicating with the payment provider."
+msgstr ""
+
+#: pretix_visma_pay/payment.py:85
+msgid "Finnish online bank and credit card payments"
+msgstr ""
+
+#: pretix_visma_pay/payment.py:90
+msgid ""
+"In test mode, only test cards will work. Visa: 4012888888881881. MasterCard: "
+"5244024870672677"
+msgstr ""
+
+#: pretix_visma_pay/signals.py:29
+msgid "VismaPay reported an event"
+msgstr ""
+
+#: pretix_visma_pay/signals.py:39
 msgid "Visma Pay: API key"
 msgstr ""
 
-#: pretix_visma_pay/signals.py:41
+#: pretix_visma_pay/signals.py:46
 msgid "Visma Pay: Private key"
 msgstr ""
 
-#: pretix_visma_pay/signals.py:48
-msgid "Visma Pay: Test API key"
+#: pretix_visma_pay/signals.py:53
+msgid "Visma Pay: API key (TEST)"
 msgstr ""
 
-#: pretix_visma_pay/signals.py:55
-msgid "Visma Pay: Test private key"
+#: pretix_visma_pay/signals.py:60
+msgid "Visma Pay: Private key (TEST)"
+msgstr ""
+
+#: pretix_visma_pay/templates/pretix_visma_pay/control.html:6
+msgid "Transaction ID"
+msgstr ""
+
+#: pretix_visma_pay/templates/pretix_visma_pay/control.html:9
+msgid "Payment state"
+msgstr ""
+
+#: pretix_visma_pay/templates/pretix_visma_pay/control.html:12
+msgid "Message"
+msgstr ""
+
+#: pretix_visma_pay/templates/pretix_visma_pay/control.html:16
+msgid "Payment type"
+msgstr ""
+
+#: pretix_visma_pay/templates/pretix_visma_pay/control.html:22
+msgid "Payment Reference"
 msgstr ""

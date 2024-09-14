@@ -1,6 +1,8 @@
 import hmac
 import logging
 import requests
+from django.utils.translation import gettext_lazy as _
+from pretix.base.payment import PaymentException
 
 logger = logging.getLogger("pretix_visma_pay")
 
@@ -17,6 +19,12 @@ class VismaPayClient:
         self, order_number=None, amount=None, email=None, callback_url=None
     ):
         authcode_input = "|".join([self.api_key, order_number])
+        logging.debug(
+            "order_number: [%s] - email: [%s] - authcode: [%s]",
+            order_number,
+            email,
+            authcode_input,
+        )
         payload = {
             "version": self.API_VERSION,
             "api_key": self.api_key,
@@ -28,12 +36,20 @@ class VismaPayClient:
                 "type": "e-payment",
                 "return_url": callback_url,
                 "notify_url": callback_url,
+                "lang": "en",
             },
             "authcode": self.generate_authcode(authcode_input),
         }
 
-        r = requests.post(f"{self.BASE_URL}/auth_payment", json=payload)
-        resp = r.json()
+        try:
+            r = requests.post(f"{self.BASE_URL}/auth_payment", json=payload)
+            resp = r.json()
+            logger.debug("Response from Visma %s \n" % resp)
+        except Exception as e:
+            logger.exception("VismaPay Payment error: %s" % e)
+            raise PaymentException(
+                _("We had trouble communicating with the payment provider.")
+            )
 
         if resp.get("result") != 0:
             raise Exception(
@@ -55,6 +71,7 @@ class VismaPayClient:
         )
 
         resp = r.json()
+        logger.debug("Response from VismaPay payment methods %s \n" % resp)
 
         if resp.get("result") != 0:
             raise Exception(
@@ -84,7 +101,7 @@ class VismaPayClient:
             authcode_input = "|".join(authcode_parts)
             if authcode != self.generate_authcode(authcode_input):
                 return False
-            
+
             return True
         except Exception as e:
             logger.exception("Error validating callback request")

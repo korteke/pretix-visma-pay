@@ -16,8 +16,10 @@ class PluginApp(PluginConfig):
     class PretixPluginMeta:
         name = gettext_lazy("Visma Pay")
         author = "Keijo Korte"
-        description = gettext_lazy('Accept payments through Visma Pay, a European payment provider supporting '
-                                'Finnish Banks and Credit Cards as well as many other payment methods.')
+        description = gettext_lazy(
+            "Accept payments through Visma Pay, a European payment provider supporting "
+            "Finnish Banks and Credit Cards as well as many other payment methods."
+        )
         visible = True
         version = __version__
         category = "PAYMENT"

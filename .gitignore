@@ -64,3 +64,4 @@ target/
 
 .DS_Store
 .dccache
+.idea/

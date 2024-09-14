@@ -1,3 +1,4 @@
+import logging
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django_scopes import scope
@@ -8,12 +9,21 @@ from pretix.multidomain.urlreverse import eventreverse
 from .helpers import get_credentials
 from .visma_pay import VismaPayClient
 
+logger = logging.getLogger(__name__)
+
 
 def visma_pay_callback(request, organizer_id=None, payment_id=None):
     return_code = request.GET.get("RETURN_CODE")
     settled = request.GET.get("SETTLED")
     order_number = request.GET.get("ORDER_NUMBER")
     order_code = order_number.split("_")[0]
+    logger.debug(
+        "Redirect request: ReturnCode: [%s] Settled: [%s] OrderNumber: [%s] OrderCode: [%s]",
+        return_code,
+        settled,
+        order_number,
+        order_code,
+    )
 
     try:
         organizer = Organizer.objects.get(id=organizer_id)
@@ -36,6 +46,7 @@ def visma_pay_callback(request, organizer_id=None, payment_id=None):
                 payment.confirm()
                 order.refresh_from_db()
 
+            logger.debug("order secret: %s", order.secret)
             redirect_url = eventreverse(
                 event,
                 "presale:event.order",
